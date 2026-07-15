@@ -65,4 +65,19 @@ describe('TicketPurchaseValidator', () => {
             }
         );
     });
+    describe('adult ticket requirement', () => {
+        test.each([
+            [[new TicketTypeRequest('CHILD', 1)]],
+            [[new TicketTypeRequest('INFANT', 1)]],
+            [[
+                new TicketTypeRequest('CHILD', 1),
+                new TicketTypeRequest('INFANT', 1),
+            ]]
+        ])('should throw InvalidPurchaseException when no adult tickets are requested',
+            (ticketTypeRequests) => {
+                expect(() => validator.validate(1, ticketTypeRequests))
+                    .toThrow(InvalidPurchaseException);
+            }
+        );
+    });
 });
