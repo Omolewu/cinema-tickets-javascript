@@ -11,7 +11,6 @@ export default class TicketTypeRequest {
     if (!this.#Type.includes(type)) {
       throw new TypeError(`type must be ${this.#Type.slice(0, -1).join(', ')}, or ${this.#Type.slice(-1)}`);
     }
-
     if (!Number.isInteger(noOfTickets)) {
       throw new TypeError('noOfTickets must be an integer');
     }

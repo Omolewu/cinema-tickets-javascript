@@ -8,19 +8,22 @@ describe('TicketPurchaseValidator', () => {
         validator = new TicketPurchaseValidator();
     });
     describe('account ID validation', () => {
-        test.each([0, -1, -100])(
-            'should throw InvalidPurchaseException for invalid account ID: %i',
+        test.each([
+            0,
+            - 1,
+            -100,
+            null,
+            undefined,
+            '123',
+            1.5,
+            NaN,
+        ])(
+            'should throw InvalidPurchaseException for invalid account ID: %p',
             (accountId) => {
                 const request = new TicketTypeRequest('ADULT', 1);
                 expect(() => validator.validate(accountId, [request]))
                     .toThrow(InvalidPurchaseException);
             }
         );
-
-        test("should throw InvalidPurchaseException when the account ID is null", () => {
-            const request = new TicketTypeRequest('ADULT', 1);
-            expect(() => validator.validate(null, [request]))
-                .toThrow(InvalidPurchaseException);
-        });
     });
 });
