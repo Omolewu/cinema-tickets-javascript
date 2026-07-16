@@ -65,6 +65,7 @@ describe('TicketPurchaseValidator', () => {
             }
         );
     });
+
     describe('adult ticket requirement', () => {
         test.each([
             [[new TicketTypeRequest('CHILD', 1)]],
@@ -80,24 +81,45 @@ describe('TicketPurchaseValidator', () => {
             }
         );
     });
-    describe('maximum ticket limit', ()=> {
-       test('should throw InvalidPurchaseException when more than 25 tickets are requested', () => {
-        const ticketTypeRequests = [
-            new TicketTypeRequest('ADULT', 10),
-            new TicketTypeRequest('CHILD', 10),
-            new TicketTypeRequest('INFANT', 6)
-        ];
-        expect(() => validator.validate(1, ticketTypeRequests))
-            .toThrow(InvalidPurchaseException);
-       });
-       test('should not throw InvalidPurchaseException when exactly 25 tickets are requested', () => {
-        const ticketTypeRequests = [
-            new TicketTypeRequest('ADULT', 10),
-            new TicketTypeRequest('CHILD', 10),
-            new TicketTypeRequest('INFANT', 5)
-        ];
-        expect(() => validator.validate(1, ticketTypeRequests))
-            .not.toThrow(InvalidPurchaseException);
-       });
+
+    describe('maximum ticket limit', () => {
+        test('should throw InvalidPurchaseException when more than 25 tickets are requested', () => {
+            const ticketTypeRequests = [
+                new TicketTypeRequest('ADULT', 10),
+                new TicketTypeRequest('CHILD', 10),
+                new TicketTypeRequest('INFANT', 6)
+            ];
+            expect(() => validator.validate(1, ticketTypeRequests))
+                .toThrow(InvalidPurchaseException);
+        });
+        test('should not throw InvalidPurchaseException when exactly 25 tickets are requested', () => {
+            const ticketTypeRequests = [
+                new TicketTypeRequest('ADULT', 10),
+                new TicketTypeRequest('CHILD', 10),
+                new TicketTypeRequest('INFANT', 5)
+            ];
+            expect(() => validator.validate(1, ticketTypeRequests))
+                .not.toThrow(InvalidPurchaseException);
+        });
+    });
+    describe('valid purchase requests', () => {
+        test.each([
+            [[new TicketTypeRequest('ADULT', 1)]],
+            [[
+                new TicketTypeRequest('ADULT', 1),
+                new TicketTypeRequest('CHILD', 1),
+            ]],
+            [[
+                new TicketTypeRequest('ADULT', 2),
+                new TicketTypeRequest('CHILD', 3),
+                new TicketTypeRequest('INFANT', 1),
+            ]],
+
+        ])('should not throw InvalidPurchaseException for valid purchase: case %#',
+            (ticketTypeRequests) => {
+                expect(() => validator.validate(1, ticketTypeRequests))
+                    .not.toThrow(InvalidPurchaseException);
+            }
+        );
     });
 });
