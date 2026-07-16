@@ -1,10 +1,13 @@
 import InvalidPurchaseException from './lib/InvalidPurchaseException.js';
 
 export default class TicketPurchaseValidator {
+    static #MAX_TICKETS_PER_PURCHASE = 25;
+
     validate(accountId, ticketTypeRequests) {
         this.#validateAccountId(accountId);
         this.#validateTicketTypeRequests(ticketTypeRequests);
         this.#validateAdultTicketRequirement(ticketTypeRequests);
+        this.#validateMaximumTicketLimit(ticketTypeRequests);
     }
 
     #validateAccountId(accountId) {
@@ -35,6 +38,15 @@ export default class TicketPurchaseValidator {
         if (!hasAdultTicket) {
             throw new InvalidPurchaseException('At least one adult ticket is required');
 
+        }
+    }
+    #validateMaximumTicketLimit(ticketTypeRequests) {
+        const totalTickets = ticketTypeRequests.reduce(
+            (total, request) => total + request.getNoOfTickets(),
+            0
+        );
+        if (totalTickets > TicketPurchaseValidator.#MAX_TICKETS_PER_PURCHASE) {
+            throw new InvalidPurchaseException(`Maximum of ${TicketPurchaseValidator.#MAX_TICKETS_PER_PURCHASE} tickets can be purchased at a time`);
         }
     }
 }
