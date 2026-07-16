@@ -80,4 +80,24 @@ describe('TicketPurchaseValidator', () => {
             }
         );
     });
+    describe('maximum ticket limit', ()=> {
+       test('should throw InvalidPurchaseException when more than 25 tickets are requested', () => {
+        const ticketTypeRequests = [
+            new TicketTypeRequest('ADULT', 10),
+            new TicketTypeRequest('CHILD', 10),
+            new TicketTypeRequest('INFANT', 6)
+        ];
+        expect(() => validator.validate(1, ticketTypeRequests))
+            .toThrow(InvalidPurchaseException);
+       });
+       test('should not throw InvalidPurchaseException when exactly 25 tickets are requested', () => {
+        const ticketTypeRequests = [
+            new TicketTypeRequest('ADULT', 10),
+            new TicketTypeRequest('CHILD', 10),
+            new TicketTypeRequest('INFANT', 5)
+        ];
+        expect(() => validator.validate(1, ticketTypeRequests))
+            .not.toThrow(InvalidPurchaseException);
+       });
+    });
 });
