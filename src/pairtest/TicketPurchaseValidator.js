@@ -4,6 +4,7 @@ export default class TicketPurchaseValidator {
     validate(accountId, ticketTypeRequests) {
         this.#validateAccountId(accountId);
         this.#validateTicketTypeRequests(ticketTypeRequests);
+        this.#validateAdultTicketRequirement(ticketTypeRequests);
     }
 
     #validateAccountId(accountId) {
@@ -24,6 +25,16 @@ export default class TicketPurchaseValidator {
             if (request.getNoOfTickets() <= 0) {
                 throw new InvalidPurchaseException('Number of tickets must be greater than zero');
             }
+        }
+    }
+
+    #validateAdultTicketRequirement(ticketTypeRequests) {
+        const hasAdultTicket = ticketTypeRequests.some(
+            (request) => request.getTicketType() === 'ADULT' && request.getNoOfTickets() > 0);
+
+        if (!hasAdultTicket) {
+            throw new InvalidPurchaseException('At least one adult ticket is required');
+
         }
     }
 }
