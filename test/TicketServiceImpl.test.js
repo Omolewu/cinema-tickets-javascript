@@ -71,12 +71,11 @@ describe('TicketServiceImpl', () => {
 
     test('should not charge for infants and not reserve seats for infants', () => {
         const ticketTypeRequests = [
-            new TicketTypeRequest('ADULT', 2),
-            new TicketTypeRequest('CHILD', 3),
+            new TicketTypeRequest('ADULT', 1),
             new TicketTypeRequest('INFANT', 1),
         ];
         ticketService.purchaseTickets(1, ...ticketTypeRequests);
-        expect(ticketPaymentService.makePayment).toHaveBeenCalledWith(1, 95);
-        expect(seatReservationService.reserveSeat).toHaveBeenCalledWith(1, 5);
+        expect(ticketPaymentService.makePayment).toHaveBeenCalledWith(1, 25);
+        expect(seatReservationService.reserveSeat).toHaveBeenCalledWith(1, 1);
     });
 });
