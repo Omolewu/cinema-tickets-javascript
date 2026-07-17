@@ -29,7 +29,7 @@ describe('TicketPriceCalculator', () => {
             new TicketTypeRequest('INFANT', 1),
         ];
         expect(calculator.calculateTotalPrice(requests)).toBe(95);
-    })
+    });
 
     test('should calculate total price when ticket types are repeated', () => {
         const requests = [
@@ -40,5 +40,4 @@ describe('TicketPriceCalculator', () => {
         ];
         expect(calculator.calculateTotalPrice(requests)).toBe(130);
     });
-
 });

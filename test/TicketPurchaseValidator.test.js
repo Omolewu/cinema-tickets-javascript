@@ -4,9 +4,11 @@ import TicketTypeRequest from '../src/pairtest/lib/TicketTypeRequest.js';
 
 describe('TicketPurchaseValidator', () => {
     let validator;
+
     beforeEach(() => {
         validator = new TicketPurchaseValidator();
     });
+
     describe('account ID validation', () => {
         test.each([
             0,
@@ -26,11 +28,12 @@ describe('TicketPurchaseValidator', () => {
             }
         );
     });
+
     describe('ticket type requests validation', () => {
         test.each([
             [],
             null,
-            undefined
+            undefined,
         ])(
             'should throw InvalidPurchaseException for invalid ticket type requests: %p',
             (ticketTypeRequests) => {
@@ -61,7 +64,6 @@ describe('TicketPurchaseValidator', () => {
             (ticketTypeRequest) => {
                 expect(() => validator.validate(1, [ticketTypeRequest]))
                     .toThrow(InvalidPurchaseException);
-
             }
         );
     });
@@ -73,7 +75,7 @@ describe('TicketPurchaseValidator', () => {
             [[
                 new TicketTypeRequest('CHILD', 1),
                 new TicketTypeRequest('INFANT', 1),
-            ]]
+            ]],
         ])('should throw InvalidPurchaseException when no adult tickets are requested: case %#',
             (ticketTypeRequests) => {
                 expect(() => validator.validate(1, ticketTypeRequests))
@@ -87,21 +89,23 @@ describe('TicketPurchaseValidator', () => {
             const ticketTypeRequests = [
                 new TicketTypeRequest('ADULT', 10),
                 new TicketTypeRequest('CHILD', 10),
-                new TicketTypeRequest('INFANT', 6)
+                new TicketTypeRequest('INFANT', 6),
             ];
             expect(() => validator.validate(1, ticketTypeRequests))
                 .toThrow(InvalidPurchaseException);
         });
+
         test('should not throw InvalidPurchaseException when exactly 25 tickets are requested', () => {
             const ticketTypeRequests = [
                 new TicketTypeRequest('ADULT', 10),
                 new TicketTypeRequest('CHILD', 10),
-                new TicketTypeRequest('INFANT', 5)
+                new TicketTypeRequest('INFANT', 5),
             ];
             expect(() => validator.validate(1, ticketTypeRequests))
                 .not.toThrow(InvalidPurchaseException);
         });
     });
+
     describe('valid purchase requests', () => {
         test.each([
             [[new TicketTypeRequest('ADULT', 1)]],
@@ -114,7 +118,6 @@ describe('TicketPurchaseValidator', () => {
                 new TicketTypeRequest('CHILD', 3),
                 new TicketTypeRequest('INFANT', 1),
             ]],
-
         ])('should not throw InvalidPurchaseException for valid purchase: case %#',
             (ticketTypeRequests) => {
                 expect(() => validator.validate(1, ticketTypeRequests))

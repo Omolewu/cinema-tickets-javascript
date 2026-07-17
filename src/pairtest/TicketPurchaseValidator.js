@@ -34,20 +34,24 @@ export default class TicketPurchaseValidator {
     #validateAdultTicketRequirement(ticketTypeRequests) {
         const hasAdultTicket = ticketTypeRequests.some(
             (request) => request.getTicketType() === 'ADULT'
-                && request.getNoOfTickets() > 0);
+                && request.getNoOfTickets() > 0
+        );
 
         if (!hasAdultTicket) {
             throw new InvalidPurchaseException('At least one adult ticket is required');
-
         }
     }
+
     #validateMaximumTicketLimit(ticketTypeRequests) {
         const totalTickets = ticketTypeRequests.reduce(
             (total, request) => total + request.getNoOfTickets(),
             0
         );
+
         if (totalTickets > TicketPurchaseValidator.#MAX_TICKETS_PER_PURCHASE) {
-            throw new InvalidPurchaseException(`Maximum of ${TicketPurchaseValidator.#MAX_TICKETS_PER_PURCHASE} tickets can be purchased at a time`);
+            throw new InvalidPurchaseException(
+                `Maximum of ${TicketPurchaseValidator.#MAX_TICKETS_PER_PURCHASE} tickets can be purchased at a time`
+            );
         }
     }
 }

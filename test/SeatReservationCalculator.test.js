@@ -21,6 +21,7 @@ describe('SeatReservationCalculator', () => {
                 .toBe(expectedSeats);
         }
     );
+
     test('should calculate the correct total number of seats for multiple ticket type requests', () => {
         const requests = [
             new TicketTypeRequest('ADULT', 2),
@@ -29,6 +30,7 @@ describe('SeatReservationCalculator', () => {
         ];
         expect(calculator.calculateTotalSeats(requests)).toBe(5);
     });
+
     test('should calculate total seats when ticket types are repeated', () => {
         const requests = [
             new TicketTypeRequest('ADULT', 1),

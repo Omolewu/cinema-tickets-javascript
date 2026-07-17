@@ -34,7 +34,7 @@ describe('TicketServiceImpl', () => {
         expect(seatReservationService.reserveSeat)
             .toHaveBeenCalledWith(1, 5);
     });
-    
+
     test('should call payment service before seat reservation service', () => {
         const ticketTypeRequests = [
             new TicketTypeRequest('ADULT', 1),

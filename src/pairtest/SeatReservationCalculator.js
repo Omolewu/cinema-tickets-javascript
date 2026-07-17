@@ -2,7 +2,7 @@ export default class SeatReservationCalculator {
     static #SEAT_ALLOCATION = {
         ADULT: 1,
         CHILD: 1,
-        INFANT: 0
+        INFANT: 0,
     };
 
     calculateTotalSeats(ticketTypeRequests) {
