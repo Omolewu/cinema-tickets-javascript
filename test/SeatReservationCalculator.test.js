@@ -3,6 +3,7 @@ import TicketTypeRequest from '../src/pairtest/lib/TicketTypeRequest.js';
 
 describe('SeatReservationCalculator', () => {
     let calculator;
+
     beforeEach(() => {
         calculator = new SeatReservationCalculator();
     });
