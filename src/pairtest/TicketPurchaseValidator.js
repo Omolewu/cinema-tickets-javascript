@@ -25,6 +25,14 @@ export default class TicketPurchaseValidator {
             if (request === null || request === undefined) {
                 throw new InvalidPurchaseException('Ticket type request must be provided');
             }
+
+            if (
+                typeof request.getTicketType !== 'function'
+                || typeof request.getNoOfTickets !== 'function'
+            ) {
+                throw new InvalidPurchaseException('Invalid ticket type request');
+            }
+            
             if (request.getNoOfTickets() <= 0) {
                 throw new InvalidPurchaseException('Number of tickets must be greater than zero');
             }

@@ -47,6 +47,16 @@ describe('TicketPurchaseValidator', () => {
                 .toThrow(InvalidPurchaseException);
         });
 
+        test('should throw InvalidPurchaseException when array contains an invalid request object', () => {
+            const invalidRequest = {
+                type: 'ADULT',
+                noOfTickets: 1,
+            };
+
+            expect(() => validator.validate(1, [invalidRequest]))
+                .toThrow(InvalidPurchaseException);
+        });
+
         test('should throw InvalidPurchaseException when array contains an undefined element', () => {
             expect(() => validator.validate(1, [undefined]))
                 .toThrow(InvalidPurchaseException);
