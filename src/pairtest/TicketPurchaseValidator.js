@@ -33,7 +33,8 @@ export default class TicketPurchaseValidator {
 
     #validateAdultTicketRequirement(ticketTypeRequests) {
         const hasAdultTicket = ticketTypeRequests.some(
-            (request) => request.getTicketType() === 'ADULT' && request.getNoOfTickets() > 0);
+            (request) => request.getTicketType() === 'ADULT'
+                && request.getNoOfTickets() > 0);
 
         if (!hasAdultTicket) {
             throw new InvalidPurchaseException('At least one adult ticket is required');
